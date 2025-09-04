@@ -1,0 +1,93 @@
+
+body.dark-mode {
+    background-color: #181a1b !important;
+    color: #fff !important;
+}
+
+.dark-mode .navbar,
+.dark-mode .navbar.bg-white {
+    background-color: #23272b !important;
+    color: #fff !important;
+}
+
+.dark-mode .navbar-brand {
+    color: #fff !important;
+}
+
+.dark-mode .card {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .modal-content {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-mode input,
+.dark-mode textarea {
+    background-color: #181a1b !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .form-label,
+.dark-mode label {
+    color: #fff !important;
+}
+
+.dark-mode .dropdown-menu {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .dropdown-item {
+    color: #fff !important;
+}
+
+.dark-mode .dropdown-item:hover {
+    background-color: #444 !important;
+    color: #fff !important;
+}
+
+.dark-mode .btn-primary,
+.dark-mode .btn-outline-primary,
+.dark-mode .btn-secondary,
+.dark-mode .btn-outline-secondary,
+.dark-mode .btn-outline-dark {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .btn:hover,
+.dark-mode .btn-primary:hover,
+.dark-mode .btn-outline-primary:hover,
+.dark-mode .btn-secondary:hover,
+.dark-mode .btn-outline-secondary:hover,
+.dark-mode .btn-outline-danger:hover,
+.dark-mode .btn-outline-dark:hover {
+    background-color: #444 !important;
+    color: #fff !important;
+    border-color: #666 !important;
+}
+
+.dark-mode .alert {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .badge {
+    background-color: #444 !important;
+    color: #fff !important;
+}
+
+.dark-mode .text-muted {
+    color: #bbb !important;
+}

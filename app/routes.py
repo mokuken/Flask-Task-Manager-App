@@ -151,12 +151,24 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             session['user_id'] = user.id
+            session['theme'] = user.theme or 'light'
             flash("Logged in successfully.", "success")
             return redirect(url_for("main.index"))
         else:
             flash("Invalid username or password.", "danger")
             return redirect(url_for("main.login"))
     return render_template("login.html")
+
+@main.route("/toggle_theme", methods=["POST"])
+def toggle_theme():
+    user = current_user()
+    if not user:
+        return redirect(url_for("main.login"))
+    # Toggle theme
+    user.theme = "dark" if user.theme == "light" else "light"
+    db.session.commit()
+    session['theme'] = user.theme
+    return redirect(request.referrer or url_for("main.index"))
 
 # User logout
 @main.route("/logout")

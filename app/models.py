@@ -11,6 +11,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    theme = db.Column(db.String(10), default='light')  # 'light' or 'dark'
     tasks = db.relationship('Task', backref='user', lazy=True)
 
     def set_password(self, password):

@@ -8,15 +8,28 @@
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body class="bg-light{% if user and (user.theme == 'dark' or session.get('theme') == 'dark') %} dark-mode{% endif %}">
     {% if user and request.endpoint not in ['main.login', 'main.register'] %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-white mb-4">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white mb-4{% if user and (user.theme == 'dark' or session.get('theme') == 'dark') %} dark-mode{% endif %}">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">📝 Task Manager</a>
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
+                📝 Task Manager
+                <span class="ms-3 fw-semibold text-primary">{{ user.username }}</span>
+            </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><span class="nav-link">Logged in as {{ user.username }}</span></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a></li>
+                    <li class="nav-item me-2">
+                        <form method="POST" action="{{ url_for('main.toggle_theme') }}">
+                            <button type="submit" class="btn btn-outline-dark" title="Toggle Dark Mode">
+                                <span class="bi bi-moon"></span> Dark Mode
+                            </button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="{{ url_for('main.logout') }}" style="color: white;">
+                            Logout
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
