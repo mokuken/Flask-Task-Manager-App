@@ -137,9 +137,9 @@ def register():
         user = User(username=username)
         user.set_password(password)
         db.session.add(user)
-    db.session.commit()
-    flash("Registration successful. Please log in.", "info")
-    return redirect(url_for("main.login"))
+        db.session.commit()
+        flash("Registration successful. Please log in.", "info")
+        return redirect(url_for("main.login"))
     return render_template("register.html")
 
 # User login
