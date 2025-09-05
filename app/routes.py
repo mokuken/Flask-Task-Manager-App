@@ -1,5 +1,3 @@
-"""Routes and views for Task Manager."""
-
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from datetime import datetime
 from app import db
@@ -13,6 +11,26 @@ def current_user():
     return None
 
 
+# AJAX search route
+@main.route("/search_ajax")
+def search_ajax():
+    """Return grouped tasks HTML for AJAX search."""
+    user = current_user()
+    if not user:
+        return "<p class='text-muted'>Please log in.</p>"
+    query = request.args.get("q", "")
+    if query:
+        tasks = Task.query.filter(
+            ((Task.title.contains(query)) | (Task.description.contains(query))) & (Task.user_id == user.id)
+        ).order_by(Task.created_at.desc()).all()
+    else:
+        tasks = Task.query.filter_by(user_id=user.id).order_by(Task.created_at.desc()).all()
+    grouped_tasks = {"High": [], "Normal": [], "Low": []}
+    for task in tasks:
+        grouped_tasks.get(task.priority, grouped_tasks["Normal"]).append(task)
+    return render_template("_grouped_tasks.html", grouped_tasks=grouped_tasks, now=datetime.utcnow())
+"""Routes and views for Task Manager."""
+
 @main.route("/")
 def index():
     """Homepage: display user's tasks."""
@@ -20,8 +38,12 @@ def index():
     if not user:
         return redirect(url_for("main.login"))
     tasks = Task.query.filter_by(user_id=user.id).order_by(Task.created_at.desc()).all()
+    # Group tasks by priority
+    grouped_tasks = {"High": [], "Normal": [], "Low": []}
+    for task in tasks:
+        grouped_tasks.get(task.priority, grouped_tasks["Normal"]).append(task)
     return render_template("index.html",
-                           tasks=tasks,
+                           grouped_tasks=grouped_tasks,
                            now=datetime.utcnow(),
                            search_query=None,
                            user=user)

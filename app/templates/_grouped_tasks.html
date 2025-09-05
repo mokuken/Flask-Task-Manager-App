@@ -1,0 +1,53 @@
+{% for priority in ['High', 'Normal', 'Low'] %}
+    {% set tasks = grouped_tasks[priority] %}
+    {% if tasks %}
+        <h3 class="mt-4 mb-3">
+            {% if priority == 'High' %}
+                <span class="me-2">&#9889;</span> High Priority
+            {% elif priority == 'Normal' %}
+                <span class="me-2">&#128221;</span> Normal Priority
+            {% elif priority == 'Low' %}
+                <span class="me-2">&#128310;</span> Low Priority
+            {% endif %}
+        </h3>
+        <div class="row">
+            {% for task in tasks %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title {{ 'text-decoration-line-through text-muted' if task.complete else '' }}">
+                            {{ task.title }}
+                        </h5>
+                        {% if task.description %}
+                        <p class="card-text text-muted small">{{ task.description }}</p>
+                        {% endif %}
+                        <span class="badge bg-{{ 'danger' if task.priority=='High' else ('secondary' if task.priority=='Low' else 'info') }}">
+                            {{ task.priority }}
+                        </span>
+                        {% if task.deadline %}
+                        <span class="badge bg-{{ 'success' if task.deadline > now else 'danger' }}">
+                            Due {{ task.deadline.strftime('%b %d, %Y %H:%M') }}
+                        </span>
+                        {% endif %}
+                        <span class="badge bg-{{ 'success' if task.complete else 'warning' }}">
+                            {{ 'Done' if task.complete else 'Pending' }}
+                        </span>
+                        <div class="mt-3 d-flex gap-2">
+                            <a href="{{ url_for('main.toggle', task_id=task.id) }}" class="btn btn-sm btn-outline-success">
+                                {{ 'Undo' if task.complete else 'Mark Done' }}
+                            </a>
+                            <a href="{{ url_for('main.delete', task_id=task.id) }}" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Delete this task?');">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted small">
+                        Created {{ task.created_at.strftime('%b %d, %Y %H:%M') }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}
