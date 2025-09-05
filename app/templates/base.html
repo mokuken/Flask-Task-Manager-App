@@ -14,7 +14,17 @@
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
                 📝 Task Manager
-                <span class="ms-3 fw-semibold text-primary">{{ user.username }}</span>
+                <span class="ms-3 fw-semibold text-primary">{{ user.username }}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' and 'logged in' in message|lower %}
+                                <span class="badge bg-success ms-2" style="vertical-align:middle;">Login Successfull!</span>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                </span>
             </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
